@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "PokerNow Player Notes",
+    "version": "1.0",
+    "description": "Take and save notes on players in PokerNow.club games.",
+    "permissions": ["storage", "scripting"],
+    "content_scripts": [
+        {
+            "matches": ["*://*.pokernow.club/*"],
+            "js": ["content.js"]
+        }
+    ],
+    "icons": {
+        "48": "icon.png"
+    }
+}
