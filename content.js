@@ -163,7 +163,14 @@ function updatePotOddsDisplay() {
   const potValue = parseFloat(potElem.textContent.replace(/[^0-9.]/g, ""));
   const callAmount = getCallAmount(); // We'll define this separately
 
-  if (isNaN(potValue) || isNaN(callAmount) || callAmount <= 0) return;
+  if (isNaN(potValue) || isNaN(callAmount)) return;
+
+  // If there's no call to make, hide the odds display
+  if (callAmount <= 0) {
+    const existing = document.querySelector(".pot-odds-overlay");
+    if (existing) existing.remove();
+    return;
+  }
 
   const [num, den] = simplifyRatio(callAmount, potValue + callAmount);
   const percent = ((callAmount / (potValue + callAmount)) * 100).toFixed(1);
