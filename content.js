@@ -1,3 +1,5 @@
+//////// note-taking /////////
+
 function debounce(fn, delay) {
   let timeout;
   return function (...args) {
@@ -26,16 +28,17 @@ function createNotePopup(playerName, playerElem) {
   popup.style.flexDirection = "column";
 
   const textarea = document.createElement("textarea");
-  textarea.rows = 6;
-  textarea.placeholder = "• Type a note and hit enter...\n• Each line becomes a bullet";
+  textarea.style.boxSizing = "border-box";
   textarea.style.width = "100%";
-  textarea.style.background = "#111";
-  textarea.style.color = "#fff";
+  textarea.style.maxWidth = "100%";
   textarea.style.border = "1px solid #555";
   textarea.style.borderRadius = "4px";
   textarea.style.padding = "6px";
-  textarea.style.resize = "none";
+  textarea.style.background = "#111";
+  textarea.style.color = "#fff";
   textarea.style.fontFamily = "monospace";
+  textarea.style.resize = "none";
+  textarea.style.minHeight = "100px";
 
   popup.appendChild(textarea);
   document.body.appendChild(popup);
@@ -139,3 +142,56 @@ function attachNoteButtons() {
 }
 
 setInterval(attachNoteButtons, 2000);
+
+/////// pod odds ///////
+function gcd(a, b) {
+  return b === 0 ? a : gcd(b, a % b);
+}
+
+function simplifyRatio(numerator, denominator) {
+  const divisor = gcd(numerator, denominator);
+  return [Math.round(numerator / divisor), Math.round(denominator / divisor)];
+}
+
+function updatePotOddsDisplay() {
+  // Adjust these selectors to match PokerNow elements
+  const potElem = document.querySelector(".table-pot-size .add-on-container .add-on .chips-value .normal-value");      // where the pot is shown
+  const anchorElem = document.querySelector(".main-value"); // where to insert the odds
+
+  if (!potElem || !anchorElem) return;
+
+  const potValue = parseFloat(potElem.textContent.replace(/[^0-9.]/g, ""));
+  const callAmount = getCallAmount(); // We'll define this separately
+
+  if (isNaN(potValue) || isNaN(callAmount) || callAmount <= 0) return;
+
+  const [num, den] = simplifyRatio(callAmount, potValue + callAmount);
+  const percent = ((callAmount / (potValue + callAmount)) * 100).toFixed(1);
+
+  // Check if already added
+  let oddsElem = document.querySelector(".pot-odds-overlay");
+  if (!oddsElem) {
+    oddsElem = document.createElement("div");
+    oddsElem.className = "pot-odds-overlay";
+    oddsElem.style.fontSize = "13px";
+    oddsElem.style.fontWeight = "bold";
+    oddsElem.style.color = "black";
+    oddsElem.style.marginTop = "4px";
+    oddsElem.style.textAlign = "center"
+    anchorElem.parentNode.insertBefore(oddsElem, anchorElem.nextSibling);
+  }
+
+  oddsElem.textContent = `Pot Odds: ${den}:${num} (${percent}%)`;
+}
+
+function getCallAmount() {
+  // Example: find element showing amount to call
+  const callElem = document.querySelector(".call"); // update to actual selector
+  if (!callElem) return 0;
+
+  const val = parseFloat(callElem.textContent.replace(/[^0-9.]/g, ""));
+  return isNaN(val) ? 0 : val;
+}
+
+// Run regularly to stay in sync
+setInterval(updatePotOddsDisplay, 1000);
