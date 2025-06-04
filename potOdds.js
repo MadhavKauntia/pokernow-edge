@@ -26,7 +26,7 @@ function gcd(a, b) {
       return;
     }
 
-    const [num, den] = simplifyRatio(callAmount, potValue + callAmount);
+    const [num, den] = simplifyRatio(callAmount, potValue);
     const percent = ((callAmount / (potValue + callAmount)) * 100).toFixed(1);
 
     // Check if already added
