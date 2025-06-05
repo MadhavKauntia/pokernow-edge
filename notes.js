@@ -82,8 +82,7 @@ function createNotePopup(playerName, playerElem) {
       const lastLine = before.slice(lastLineBreak + 1).trimStart();
       const bullet = lastLine.startsWith('•') ? '• ' : '';
 
-      const newValue = before + '\n' + bullet + after;
-      textarea.value = newValue;
+      textarea.value = before + '\n' + bullet + after;
 
       // Move cursor correctly
       const newPos = cursorPos + 1 + bullet.length;
@@ -109,6 +108,7 @@ function createNotePopup(playerName, playerElem) {
 function addNoteButton(playerElem, playerName) {
   const button = document.createElement("button");
   button.innerText = "📝";
+  button.className = "note-icon"
   button.title = "View/Edit Note";
   button.style.marginLeft = "6px";
   button.style.cursor = "pointer";

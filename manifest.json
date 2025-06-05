@@ -7,7 +7,7 @@
     "content_scripts": [
         {
             "matches": ["*://*.pokernow.club/*"],
-            "js": ["notes.js", "potOdds.js"],
+            "js": ["notes.js", "potOdds.js", "hud.js"],
             "run_at": "document_idle"
         }
     ],
