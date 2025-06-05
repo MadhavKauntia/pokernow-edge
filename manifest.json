@@ -3,7 +3,7 @@
     "name": "PokerNow Edge",
     "version": "1.0",
     "description": "Gain clarity at every table. Lightweight, fast, and designed to help you win more.",
-    "permissions": ["storage", "scripting"],
+    "permissions": ["storage"],
     "content_scripts": [
         {
             "matches": ["*://*.pokernow.club/*"],
