@@ -6,7 +6,7 @@
     "permissions": ["storage"],
     "content_scripts": [
         {
-            "matches": ["*://*.pokernow.club/*"],
+            "matches": ["*://*.pokernow.com/*"],
             "js": ["notes.js", "potOdds.js"],
             "run_at": "document_idle"
         }
